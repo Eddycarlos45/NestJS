@@ -1,24 +1,41 @@
-import { Injectable } from "@nestjs/common";
-import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
-import { User } from "./user.entity";
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User } from './user.entity';
 
 @Injectable()
 export class UserService {
-    constructor(@InjectRepository(User)
+  constructor(
+    @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-    ){}
+  ) {}
 
-    async findAll(): Promise<User[]>{
-        return this.userRepository.find()
+  async findAll(): Promise<User[]> {
+    try {
+      return await this.userRepository.find();
+    } catch (error) {
+      console.error({ messageError: error });
     }
-    async create(user) {
-        return this.userRepository.save(user)
+  }
+  async create(user) {
+    try {
+      return await this.userRepository.save(user);
+    } catch (error) {
+      console.error({ messageError: error });
     }
-    async update(user: User, id: string) {
-        return this.userRepository.update(id, user)
+  }
+  async update(user: User, id: string) {
+    try {
+      return await this.userRepository.update(id, user);
+    } catch (error) {
+      console.error({ messageError: error });
     }
-    async remove(id: string) {
-        return this.userRepository.delete(id)
+  }
+  async remove(id: string) {
+    try {
+      return await this.userRepository.delete(id);
+    } catch (error) {
+      console.error({ messageError: error });
     }
+  }
 }
